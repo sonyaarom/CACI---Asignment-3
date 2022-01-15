@@ -1,0 +1,41 @@
+df <- read.csv("smartwatch_survey.csv")
+dim(df)
+str(df)
+summary(df)
+pacman::p_load(reshape2, ggplot2, psych, corrplot, fpc, cluster)
+
+pacman::p_load(ggplot)
+
+#checking WTP and Income
+
+boxplot(df$WTP,
+  ylab = "WTP"
+)
+ggp <- ggplot(df)  + 
+geom_bar(aes(x=Income, y= frequency),stat="identity", fill="cyan",colour="#006000")
+ggp
+
+plot(y=df$WTP,x=df$Income)
+
+describe(df)
+
+library(dplyr)
+
+averageWTP <- df %>%
+  group_by(Income) %>%
+  summarise_at(vars(WTP), funs(mean(., na.rm=TRUE)))
+
+average.WTP
+averageWTP <-as.data.frame(averageWTP)
+#Age Groups
+
+df$Age.group <-ifelse(df$Age<=25,1,
+                          ifelse(df$Age>=26&df$Age<=35,2,
+                                 ifelse(df$Age>=36&df$Age<=45,3,
+                                 ifelse(df$Age>=46&df$Age<=55,4,5))))
+                                 
+    
+
+#checking correlation between Occupation and Importance
+dfOcup <- df(c(2:13,17:26))
+

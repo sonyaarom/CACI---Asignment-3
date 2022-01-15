@@ -34,8 +34,67 @@ df$Age.group <-ifelse(df$Age<=25,1,
                                  ifelse(df$Age>=36&df$Age<=45,3,
                                  ifelse(df$Age>=46&df$Age<=55,4,5))))
                                  
-    
+                          df
+
+averagemediaconsumption <- df %>%
+  group_by(df$Age.group) %>%
+  summarise_at(vars(FB_Insta, Twit, Snap, YouTube, Pod_radio, TV, NewsP), funs(mean(., na.rm=TRUE)))
+
+averagemediaconsumption
+  
+ctab <- table(df$Age.group, df$FB_Insta)
+ctab
+
+table(df$Age.group)/length(df$Age.group)
+
+summary(df$Age.group=="1"&df$FB_Insta=="1")
+
+
+
+
+averagemediaconsumption <- df %>%
+  group_by(df$Age.group) %>%
+  summarise_at(vars(FB_Insta, Twit, Snap, YouTube, Pod_radio, TV, NewsP), funs(mean(., na.rm=TRUE)))
+
+averagemediaconsumption
+
+
+averagemediaconsumption_income <- df %>%
+  group_by(df$Income) %>%
+  summarise_at(vars(FB_Insta, Twit, Snap, YouTube, Pod_radio, TV, NewsP), funs(mean(., na.rm=TRUE)))
+  
+  averagemediaconsumption_income
+
+averagemediaconsumption_income <- as.data.frame(averagemediaconsumption_income)
+write.csv(averagemediaconsumption_income,"avMC_inc.csv")
+
+table(df$Income)/length(df$Income)
+table(df$Age.group,df$NewsP)
+
+table(df$Age.group)
+
 
 #checking correlation between Occupation and Importance
-dfOcup <- df(c(2:13,17:26))
+dfOcup <- df[,c(2:13)]
 
+dfOcup
+str(df)
+str(dfOcup)
+corrplot(cor(dfOcup),  #Correlation between attributes
+         method = "number", 
+         type = "upper",
+         number.cex = 0.8,
+         tl.cex = 0.9) 
+     
+agegroup_imp<- df %>%
+  group_by(df$Age.group) %>%
+  summarise_at(vars(Imp_Innov,Imp_ConstCom,Imp_CreatCom,Imp_TimelyInf ,Imp_SaveMT, Imp_SaveML, Imp_TaskMgm,Imp_DeviceSt, Imp_Photo,Imp_Wellness, Imp_Athlete, Imp_Style), funs(mean(., na.rm=TRUE)))
+agegroup_imp$Imp_Style
+#agegroup_imp <- as.data.frame(agegroup_imp)
+#write.csv(agegroup_imp,"agegroup_imp.csv")
+income_imp<- df %>%
+  group_by(df$Income) %>%
+  summarise_at(vars(Imp_Innov,Imp_ConstCom,Imp_CreatCom,Imp_TimelyInf ,Imp_SaveMT, Imp_SaveML, Imp_TaskMgm,Imp_DeviceSt, Imp_Photo,Imp_Wellness, Imp_Athlete, Imp_Style), funs(mean(., na.rm=TRUE)))
+income_imp <- as.data.frame(income_imp)
+"write.csv(income_imp,"income_imp.csv")"
+         

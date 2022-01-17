@@ -20,5 +20,48 @@ ggplot(data = df_new) +
   labs(y = "Relative Frequency") +
   scale_y_continuous(limits = c(0, 0.4)) +
   theme_classic()
+#Grouped by level of education  
+ ggplot(data = df_new, aes(x = Segment, y = ..prop.., group = 1)) +
+  geom_bar(stat = "count") +
+  labs(y = "Relative Frequency") +
+  facet_wrap(.~Degree, ncol = 4) +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 90)) 
+#Grouped by level of income  
+ ggplot(data = df_new, aes(x = Segment, y = ..prop.., group = 1)) +
+  geom_bar(stat = "count") +
+  labs(y = "Relative Frequency") +
+  facet_wrap(.~Income, ncol = 5) +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 90))   
+#Grouped by Gender  
+ ggplot(data = df_new, aes(x = Segment, y = ..prop.., group = 1)) +
+  geom_bar(stat = "count") +
+  labs(y = "Relative Frequency") +
+  facet_wrap(.~Female, ncol = 2) +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 90))   
   
+  
+  
+#Splitting the data
+set.seed(04625)   # fix the seed for reproducability
+train.pop <- 0.60 
+N <- nrow(df_new) 
+train.cases <- sample(N, N*train.pop)
+train.cases
+df_new.train <- df_new[train.cases, ]
+df_new.test <-df_new[-train.cases,]
+df_new.train
+df_new.test
+
+
+#Training model
+#Multinomial logistic regression - first attempt with all variables
+logistic_all<-multinom(Segment~.,data=df_new.train)
+summary(logistic_all)
+
+#Neet to get rid of Id!
+
+
 

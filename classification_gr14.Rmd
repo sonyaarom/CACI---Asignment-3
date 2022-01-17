@@ -1,0 +1,24 @@
+pacman::p_load(reshape2, ggplot2, nnet, mclust, e1071, randomForest, cluster)
+df_new <- read.csv("dataset_SK.csv")
+pacman:: p_load(dplyr)
+df_new
+
+#Had to rename otherwise looks ugly, haha
+names(df_new)[names(df_new)=="cluster_kmeans"]<- "Segment"
+df_new
+
+#Brief overview of the data set
+unique(df_new$Segment)
+summary(df_new)
+
+#Sizes of obtained segments
+table(df_new$Segment)
+
+#Relative Frequency - Overall
+ggplot(data = df_new) +
+  geom_bar(mapping = aes(x = Segment, y = ..prop.., group = 1), stat = "count") +
+  labs(y = "Relative Frequency") +
+  scale_y_continuous(limits = c(0, 0.4)) +
+  theme_classic()
+  
+
